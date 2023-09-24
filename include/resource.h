@@ -34,13 +34,17 @@
 #define IDC_POS_Y_EDIT                  1039
 #define IDC_POS_Z_EDIT                  1040
 #define IDC_EDIT1                       1041
+#define IDC_ALBEDO_EDIT                 1041
 #define IDC_ALBEDO_BROWSE_BTN           1042
 #define IDC_EDIT2                       1043
+#define IDC_NORMAL_EDIT                 1043
 #define IDC_NORMAL_BROWSE_BTN           1044
 #define IDC_EDIT3                       1045
+#define IDC_METALIC_EDIT                1045
 #define IDC_METALIC_BROWSE_BTN          1046
 #define IDC_ANGLE_SLIDER                1047
 #define IDC_EDIT4                       1047
+#define IDC_ROUGHNESS_EDIT              1047
 #define IDC_ANGLE_EDIT                  1048
 #define IDC_BUTTON4                     1048
 #define IDC_ROUGHNESS_BROWSE_BTN        1048

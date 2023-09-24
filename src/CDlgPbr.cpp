@@ -28,7 +28,7 @@ void CDlgPbr::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgPbr, CDialogEx)
-	ON_BN_CLICKED(IDC_ALBEDO_BROWSE_BTN, &CDlgPbr::OnBnClickedBrowseBtn)
+	ON_BN_CLICKED(IDC_ALBEDO_BROWSE_BTN, &CDlgPbr::OnBnClickedAlbedoBrowseBtn)
 	ON_BN_CLICKED(IDC_NORMAL_BROWSE_BTN, &CDlgPbr::OnBnClickedNormalBrowseBtn)
 	ON_BN_CLICKED(IDC_METALIC_BROWSE_BTN, &CDlgPbr::OnBnClickedMetalicBrowseBtn)
 	ON_BN_CLICKED(IDC_ROUGHNESS_BROWSE_BTN, &CDlgPbr::OnBnClickedRoughnessBrowseBtn)
@@ -39,7 +39,7 @@ END_MESSAGE_MAP()
 // CDlgPbr message handlers
 
 
-void CDlgPbr::OnBnClickedBrowseBtn()
+void CDlgPbr::OnBnClickedAlbedoBrowseBtn()
 {
 	const wchar_t szFilter[] = L"PNG ÆÄÀÏ (*.png) |*.png||";
 
@@ -53,7 +53,7 @@ void CDlgPbr::OnBnClickedBrowseBtn()
 	{
 		fileName = fileDlg.GetFileName();
 		filePath = fileDlg.GetPathName();
-		g_pRenderer->SetPbrAlbedoMap(nullptr);
+		SetDlgItemText(IDC_ALBEDO_EDIT, filePath);
 	}
 }
 
@@ -72,6 +72,7 @@ void CDlgPbr::OnBnClickedNormalBrowseBtn()
 	{
 		fileName = fileDlg.GetFileName();
 		filePath = fileDlg.GetPathName();
+		SetDlgItemText(IDC_NORMAL_EDIT, filePath);
 	}
 }
 
@@ -90,6 +91,7 @@ void CDlgPbr::OnBnClickedMetalicBrowseBtn()
 	{
 		fileName = fileDlg.GetFileName();
 		filePath = fileDlg.GetPathName();
+		SetDlgItemText(IDC_METALIC_EDIT, filePath);
 	}
 }
 
@@ -108,12 +110,24 @@ void CDlgPbr::OnBnClickedRoughnessBrowseBtn()
 	{
 		fileName = fileDlg.GetFileName();
 		filePath = fileDlg.GetPathName();
+		SetDlgItemText(IDC_ROUGHNESS_EDIT, filePath);
 	}
 }
 
 
 void CDlgPbr::OnBnClickedOk()
 {
+	CString albedoMapPath, normalMapPath, metalicMapPath, roughnessMapPath;
+	GetDlgItemText(IDC_ALBEDO_EDIT, albedoMapPath);
+	GetDlgItemText(IDC_NORMAL_EDIT, normalMapPath);
+	GetDlgItemText(IDC_METALIC_EDIT, metalicMapPath);
+	GetDlgItemText(IDC_ROUGHNESS_EDIT, roughnessMapPath);
 
+	g_pRenderer->SetPbrAlbedoMap(albedoMapPath);
+	g_pRenderer->SetPbrNormalMap(normalMapPath);
+	g_pRenderer->SetPbrMetalicMap(metalicMapPath);
+	g_pRenderer->SetPbrRoughnessMap(roughnessMapPath);
+
+	g_pRenderer->SetPbrRender();
 	CDialogEx::OnOK();
 }

@@ -21,8 +21,9 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+
 public:
-	afx_msg void OnBnClickedBrowseBtn();
+	afx_msg void OnBnClickedAlbedoBrowseBtn();
 	afx_msg void OnBnClickedNormalBrowseBtn();
 	afx_msg void OnBnClickedMetalicBrowseBtn();
 	afx_msg void OnBnClickedRoughnessBrowseBtn();

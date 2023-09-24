@@ -109,6 +109,5 @@ void CMainFrame::OnViewLighting()
 void CMainFrame::OnViewPbr()
 {
 	m_DlgPbr = new CDlgPbr;
-	m_DlgPbr->Create(IDD_PBR_DIALOG);
-	m_DlgPbr->ShowWindow(SW_SHOW);
+	m_DlgPbr->DoModal();
 }
