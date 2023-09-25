@@ -123,11 +123,5 @@ void CDlgPbr::OnBnClickedOk()
 	GetDlgItemText(IDC_METALIC_EDIT, metalicMapPath);
 	GetDlgItemText(IDC_ROUGHNESS_EDIT, roughnessMapPath);
 
-	g_pRenderer->SetPbrAlbedoMap(albedoMapPath);
-	g_pRenderer->SetPbrNormalMap(normalMapPath);
-	g_pRenderer->SetPbrMetalicMap(metalicMapPath);
-	g_pRenderer->SetPbrRoughnessMap(roughnessMapPath);
-
-	g_pRenderer->SetPbrRender();
 	CDialogEx::OnOK();
 }
