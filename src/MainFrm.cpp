@@ -18,8 +18,8 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
-	ON_COMMAND(ID_VIEW_LIGHTING, &CMainFrame::OnViewLighting)
-	ON_COMMAND(ID_VIEW_PBR, &CMainFrame::OnViewPbr)
+	ON_WM_SIZE()
+	ON_WM_EXITSIZEMOVE()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -100,14 +100,38 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 
 
-void CMainFrame::OnViewLighting()
+void CMainFrame::OnSize(UINT nType, int cx, int cy)
 {
-	// TODO: Add your command handler code here
+	CFrameWnd::OnSize(nType, cx, cy);
+
+	//if (g_pRenderer != nullptr)
+	//{
+	//	CFrameWnd* pFrame = reinterpret_cast<CFrameWnd*>(AfxGetApp()->m_pMainWnd);
+	//	CView* pView = pFrame->GetActiveView();
+
+	//	RECT rect;
+	//	pView->GetClientRect(&rect);
+	//	int width = rect.right - rect.left;
+	//	int height = rect.bottom - rect.top;
+
+	//	g_pRenderer->Resize(width, height);
+	//}
 }
 
-
-void CMainFrame::OnViewPbr()
+void CMainFrame::OnExitSizeMove()
 {
-	m_DlgPbr = new CDlgPbr;
-	m_DlgPbr->DoModal();
+	CFrameWnd::OnExitSizeMove();
+
+	if (g_pRenderer != nullptr)
+	{
+		CFrameWnd* pFrame = reinterpret_cast<CFrameWnd*>(AfxGetApp()->m_pMainWnd);
+		CView* pView = pFrame->GetActiveView();
+
+		RECT rect;
+		pView->GetClientRect(&rect);
+		int width = rect.right - rect.left;
+		int height = rect.bottom - rect.top;
+
+		g_pRenderer->Resize(width, height);
+	}
 }
