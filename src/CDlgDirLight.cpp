@@ -61,8 +61,8 @@ BOOL CDlgDirLight::OnInitDialog()
 	CButton* pOnOffCheck = (CButton*)GetDlgItem(IDC_ONOFF_CHECK);
 	pOnOffCheck->SetCheck(TRUE);
 
-	int lowestPos  = -1000;
-	int highestPos = 1000;
+	int lowestPos  = -50;
+	int highestPos = 50;
 	CString dirValStr;
 
 	m_DirXSlider.SetRange(lowestPos, highestPos);
@@ -73,14 +73,14 @@ BOOL CDlgDirLight::OnInitDialog()
 
 	m_DirYSlider.SetRange(lowestPos, highestPos);
 	m_DirYSlider.SetTicFreq(1);
-	m_DirYSlider.SetPos(300);
-	dirValStr.Format(_T("%d"), 300);
+	m_DirYSlider.SetPos(30);
+	dirValStr.Format(_T("%d"), 30);
 	m_DirYEdit.SetWindowTextW(dirValStr);
 
 	m_DirZSlider.SetRange(lowestPos, highestPos);
 	m_DirZSlider.SetTicFreq(1);
-	m_DirZSlider.SetPos(-150);
-	dirValStr.Format(_T("%d"), -150);
+	m_DirZSlider.SetPos(-15);
+	dirValStr.Format(_T("%d"), -15);
 	m_DirZEdit.SetWindowTextW(dirValStr);
 
 	int lowestColor  = 0;

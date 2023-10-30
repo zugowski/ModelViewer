@@ -33,7 +33,7 @@ private:
 	CSliderCtrl m_ColorGSlider;
 	CSliderCtrl m_ColorBSlider;
 	CSliderCtrl m_RangeSlider;
-	CSliderCtrl m_AngleSlider;
+	CSliderCtrl m_SpotPowerSlider;
 
 	CEdit		m_PosXEdit;
 	CEdit		m_PosYEdit;
@@ -45,7 +45,7 @@ private:
 	CEdit		m_ColorGEdit;
 	CEdit		m_ColorBEdit;
 	CEdit		m_RangeEdit;
-	CEdit		m_AngleEdit;
+	CEdit		m_SpotPowerEdit;
 
 public:
 	virtual BOOL OnInitDialog();
@@ -61,5 +61,5 @@ public:
 	afx_msg void OnEnChangeColorGEdit();
 	afx_msg void OnEnChangeColorBEdit();
 	afx_msg void OnEnChangeRangeEdit();
-	afx_msg void OnEnChangeAngleEdit();
+	afx_msg void OnEnChangeSpotPowerEdit();
 };

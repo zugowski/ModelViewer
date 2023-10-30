@@ -40,9 +40,11 @@
 #define IDC_METALIC_BROWSE_BTN          1046
 #define IDC_ANGLE_SLIDER                1047
 #define IDC_ROUGHNESS_EDIT              1047
+#define IDC_SPOTPOWER_SLIDER            1047
 #define IDC_ANGLE_EDIT                  1048
 #define IDC_BUTTON4                     1048
 #define IDC_ROUGHNESS_BROWSE_BTN        1048
+#define IDC_SPOTPOWER_EDIT              1048
 #define ID_VIEW_LIGHTING                32771
 #define ID_VIEW_PBR                     32772
 
