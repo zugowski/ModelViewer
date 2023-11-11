@@ -68,22 +68,25 @@ BOOL CDlgPointLight::OnInitDialog()
 	int highestPos = 50;
 	CString posValStr;
 
+	const int posX = PointLightInitPos.x;
 	m_PosXSlider.SetRange(lowestPos, highestPos);
 	m_PosXSlider.SetTicFreq(1);
-	m_PosXSlider.SetPos(0);
-	posValStr.Format(_T("%d"), 0);
+	m_PosXSlider.SetPos(posX);
+	posValStr.Format(_T("%d"), posX);
 	m_PosXEdit.SetWindowTextW(posValStr);
 
+	const int posY = PointLightInitPos.y;
 	m_PosYSlider.SetRange(lowestPos, highestPos);
 	m_PosYSlider.SetTicFreq(1);
-	m_PosYSlider.SetPos(30);
-	posValStr.Format(_T("%d"), 30);
+	m_PosYSlider.SetPos(posY);
+	posValStr.Format(_T("%d"), posY);
 	m_PosYEdit.SetWindowTextW(posValStr);
 
+	const int posZ = PointLightInitPos.z;
 	m_PosZSlider.SetRange(lowestPos, highestPos);
 	m_PosZSlider.SetTicFreq(1);
-	m_PosZSlider.SetPos(-15);
-	posValStr.Format(_T("%d"), -15);
+	m_PosZSlider.SetPos(posZ);
+	posValStr.Format(_T("%d"), posZ);
 	m_PosZEdit.SetWindowTextW(posValStr);
 
 	int lowestColor  = 0;
@@ -111,11 +114,11 @@ BOOL CDlgPointLight::OnInitDialog()
 	int highestRange = 300;
 	CString rangeValStr;
 
-	rangeValStr.Format(_T("%d"), 150);
-
+	const int range = PointLightInitRange;
 	m_RangeSlider.SetRange(lowestRange, highestRange);
 	m_RangeSlider.SetTicFreq(1);
-	m_RangeSlider.SetPos(150);
+	m_RangeSlider.SetPos(range);
+	rangeValStr.Format(_T("%d"), range);
 	m_RangeEdit.SetWindowTextW(rangeValStr);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -132,17 +135,17 @@ void CDlgPointLight::OnBnClickedOnoffCheck()
 		int posR = m_ColorRSlider.GetPos();
 		float r = (float)posR / 255;
 		r = round(r * 1000.0f) / 1000.0f;
-		g_pRenderer->SetPointLightColorR(r);
+		g_pRenderer->Light.PointLight.Color.x = r;
 
 		int posG = m_ColorGSlider.GetPos();
 		float g = (float)posG / 255;
 		g = round(g * 1000.0f) / 1000.0f;
-		g_pRenderer->SetPointLightColorG(g);
+		g_pRenderer->Light.PointLight.Color.y = g;
 
 		int posB = m_ColorBSlider.GetPos();
 		float b = (float)posB / 255;
 		b = round(b * 1000.0f) / 1000.0f;
-		g_pRenderer->SetPointLightColorB(b);
+		g_pRenderer->Light.PointLight.Color.z = b;
 
 		m_PosXSlider.EnableWindow(TRUE);
 		m_PosYSlider.EnableWindow(TRUE);
@@ -163,9 +166,9 @@ void CDlgPointLight::OnBnClickedOnoffCheck()
 	}
 	else
 	{
-		g_pRenderer->SetPointLightColorR(0.0f);
-		g_pRenderer->SetPointLightColorG(0.0f);
-		g_pRenderer->SetPointLightColorB(0.0f);
+		g_pRenderer->Light.PointLight.Color.x = 0.0f;
+		g_pRenderer->Light.PointLight.Color.y = 0.0f;
+		g_pRenderer->Light.PointLight.Color.z = 0.0f;
 
 		m_PosXSlider.EnableWindow(FALSE);
 		m_PosYSlider.EnableWindow(FALSE);
@@ -196,37 +199,37 @@ void CDlgPointLight::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	{
 	case IDC_POS_X_SLIDER:
 		SetDlgItemInt(IDC_POS_X_EDIT, pos);
-		g_pRenderer->SetPointLightPositionX(pos);
+		g_pRenderer->Light.PointLight.Position.x = pos;
 		break;
 	case IDC_POS_Y_SLIDER:
 		SetDlgItemInt(IDC_POS_Y_EDIT, pos);
-		g_pRenderer->SetPointLightPositionY(pos);
+		g_pRenderer->Light.PointLight.Position.y = pos;
 		break;
 	case IDC_POS_Z_SLIDER:
 		SetDlgItemInt(IDC_POS_Z_EDIT, pos);
-		g_pRenderer->SetPointLightPositionZ(pos);
+		g_pRenderer->Light.PointLight.Position.z = pos;
 		break;
 	case IDC_COLOR_R_SLIDER:
 		SetDlgItemInt(IDC_COLOR_R_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetPointLightColorR(t);
+		g_pRenderer->Light.PointLight.Color.x = t;
 		break;
 	case IDC_COLOR_G_SLIDER:
 		SetDlgItemInt(IDC_COLOR_G_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetPointLightColorG(t);
+		g_pRenderer->Light.PointLight.Color.y = t;
 		break;
 	case IDC_COLOR_B_SLIDER:
 		SetDlgItemInt(IDC_COLOR_B_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetPointLightColorB(t);
+		g_pRenderer->Light.PointLight.Color.z = t;
 		break;
 	case IDC_RANGE_SLIDER:
 		SetDlgItemInt(IDC_RANGE_EDIT, pos);
-		g_pRenderer->SetPointLightRange(pos);
+		g_pRenderer->Light.PointLight.Range = pos;
 		break;
 	}
 
@@ -241,7 +244,7 @@ void CDlgPointLight::OnEnChangePosXEdit()
 	int value = _ttoi(str);
 
 	m_PosXSlider.SetPos(value);
-	g_pRenderer->SetPointLightPositionX(value);
+	g_pRenderer->Light.PointLight.Position.x = value;
 }
 
 
@@ -252,7 +255,7 @@ void CDlgPointLight::OnEnChangePosYEdit()
 	int value = _ttoi(str);
 
 	m_PosYSlider.SetPos(value);
-	g_pRenderer->SetPointLightPositionY(value);
+	g_pRenderer->Light.PointLight.Position.y = value;
 }
 
 
@@ -263,7 +266,7 @@ void CDlgPointLight::OnEnChangePosZEdit()
 	int value = _ttoi(str);
 
 	m_PosZSlider.SetPos(value);
-	g_pRenderer->SetPointLightPositionZ(value);
+	g_pRenderer->Light.PointLight.Position.z = value;
 }
 
 
@@ -277,7 +280,7 @@ void CDlgPointLight::OnEnChangeColorREdit()
 
 	float r = (float)value / 255;
 	r = round(r * 1000.0f) / 1000.0f;
-	g_pRenderer->SetPointLightColorR(r);
+	g_pRenderer->Light.PointLight.Color.x = r;
 }
 
 
@@ -291,7 +294,7 @@ void CDlgPointLight::OnEnChangeColorGEdit()
 
 	float g = (float)value / 255;
 	g = round(g * 1000.0f) / 1000.0f;
-	g_pRenderer->SetPointLightColorG(g);
+	g_pRenderer->Light.PointLight.Color.y = g;
 }
 
 
@@ -305,7 +308,7 @@ void CDlgPointLight::OnEnChangeColorBEdit()
 
 	float b = (float)value / 255;
 	b = round(b * 1000.0f) / 1000.0f;
-	g_pRenderer->SetPointLightColorB(b);
+	g_pRenderer->Light.PointLight.Color.z = b;
 }
 
 
@@ -316,5 +319,5 @@ void CDlgPointLight::OnEnChangeRangeEdit()
 	int value = _ttoi(str);
 
 	m_RangeSlider.SetPos(value);
-	g_pRenderer->SetPointLightRange(value);
+	g_pRenderer->Light.PointLight.Range = value;
 }

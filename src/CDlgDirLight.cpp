@@ -64,23 +64,26 @@ BOOL CDlgDirLight::OnInitDialog()
 	int lowestPos  = -50;
 	int highestPos = 50;
 	CString dirValStr;
-
+	
+	const int dirX = DirLightInitDir.x;
 	m_DirXSlider.SetRange(lowestPos, highestPos);
 	m_DirXSlider.SetTicFreq(1);
-	m_DirXSlider.SetPos(0);
-	dirValStr.Format(_T("%d"), 0);
+	m_DirXSlider.SetPos(dirX);
+	dirValStr.Format(_T("%d"), dirX);
 	m_DirXEdit.SetWindowTextW(dirValStr);
 
+	const int dirY = DirLightInitDir.y;
 	m_DirYSlider.SetRange(lowestPos, highestPos);
 	m_DirYSlider.SetTicFreq(1);
-	m_DirYSlider.SetPos(30);
-	dirValStr.Format(_T("%d"), 30);
+	m_DirYSlider.SetPos(dirY);
+	dirValStr.Format(_T("%d"), dirY);
 	m_DirYEdit.SetWindowTextW(dirValStr);
 
+	const int dirZ = DirLightInitDir.z;
 	m_DirZSlider.SetRange(lowestPos, highestPos);
 	m_DirZSlider.SetTicFreq(1);
-	m_DirZSlider.SetPos(-15);
-	dirValStr.Format(_T("%d"), -15);
+	m_DirZSlider.SetPos(dirZ);
+	dirValStr.Format(_T("%d"), dirZ);
 	m_DirZEdit.SetWindowTextW(dirValStr);
 
 	int lowestColor  = 0;
@@ -117,17 +120,17 @@ void CDlgDirLight::OnBnClickedOnoffCheck()
 		int posR = m_ColorRSlider.GetPos();
 		float r = (float)posR / 255;
 		r = round(r * 1000.0f) / 1000.0f;
-		g_pRenderer->SetDirLightColorR(r);
+		g_pRenderer->Light.DirLight.Color.x = r;
 
 		int posG = m_ColorGSlider.GetPos();
 		float g = (float)posG / 255;
 		g = round(g * 1000.0f) / 1000.0f;
-		g_pRenderer->SetDirLightColorG(g);
+		g_pRenderer->Light.DirLight.Color.y = g;
 
 		int posB = m_ColorBSlider.GetPos();
 		float b = (float)posB / 255;
 		b = round(b * 1000.0f) / 1000.0f;
-		g_pRenderer->SetDirLightColorB(b);
+		g_pRenderer->Light.DirLight.Color.z = b;
 
 		m_DirXSlider.EnableWindow(TRUE);
 		m_DirYSlider.EnableWindow(TRUE);
@@ -145,9 +148,9 @@ void CDlgDirLight::OnBnClickedOnoffCheck()
 	}
 	else
 	{
-		g_pRenderer->SetDirLightColorR(0.0f);
-		g_pRenderer->SetDirLightColorG(0.0f);
-		g_pRenderer->SetDirLightColorB(0.0f);
+		g_pRenderer->Light.DirLight.Color.x = 0.0f;
+		g_pRenderer->Light.DirLight.Color.y = 0.0f;
+		g_pRenderer->Light.DirLight.Color.z = 0.0f;
 
 		m_DirXSlider.EnableWindow(FALSE);
 		m_DirYSlider.EnableWindow(FALSE);
@@ -175,33 +178,33 @@ void CDlgDirLight::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	{
 	case IDC_DIR_X_SLIDER:
 		SetDlgItemInt(IDC_DIR_X_EDIT, pos);
-		g_pRenderer->SetDirLightDirectionX(pos);
+		g_pRenderer->Light.DirLight.Direction.x = pos;
 		break;
 	case IDC_DIR_Y_SLIDER:
 		SetDlgItemInt(IDC_DIR_Y_EDIT, pos);
-		g_pRenderer->SetDirLightDirectionY(pos);
+		g_pRenderer->Light.DirLight.Direction.y = pos;
 		break;
 	case IDC_DIR_Z_SLIDER:
 		SetDlgItemInt(IDC_DIR_Z_EDIT, pos);
-		g_pRenderer->SetDirLightDirectionZ(pos);
+		g_pRenderer->Light.DirLight.Direction.z = pos;
 		break;
 	case IDC_COLOR_R_SLIDER:
 		SetDlgItemInt(IDC_COLOR_R_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetDirLightColorR(t);
+		g_pRenderer->Light.DirLight.Color.x = t;
 		break;
 	case IDC_COLOR_G_SLIDER:
 		SetDlgItemInt(IDC_COLOR_G_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetDirLightColorG(t);
+		g_pRenderer->Light.DirLight.Color.y = t;
 		break;
 	case IDC_COLOR_B_SLIDER:
 		SetDlgItemInt(IDC_COLOR_B_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetDirLightColorB(t);
+		g_pRenderer->Light.DirLight.Color.z = t;
 		break;
 	}
 
@@ -216,7 +219,7 @@ void CDlgDirLight::OnEnChangeDirXEdit()
 	int value = _ttoi(str);
 
 	m_DirXSlider.SetPos(value);
-	g_pRenderer->SetDirLightDirectionX(value);
+	g_pRenderer->Light.DirLight.Direction.x = value;
 }
 
 
@@ -227,7 +230,7 @@ void CDlgDirLight::OnEnChangeDirYEdit()
 	int value = _ttoi(str);
 
 	m_DirYSlider.SetPos(value);
-	g_pRenderer->SetDirLightDirectionY(value);
+	g_pRenderer->Light.DirLight.Direction.y = value;
 }
 
 
@@ -238,7 +241,7 @@ void CDlgDirLight::OnEnChangeDirZEdit()
 	int value = _ttoi(str);
 
 	m_DirZSlider.SetPos(value);
-	g_pRenderer->SetDirLightDirectionZ(value);
+	g_pRenderer->Light.DirLight.Direction.z = value;
 }
 
 
@@ -252,7 +255,7 @@ void CDlgDirLight::OnEnChangeColorREdit()
 
 	float r = (float)value / 255;
 	r = round(r * 1000.0f) / 1000.0f;
-	g_pRenderer->SetDirLightColorR(r);
+	g_pRenderer->Light.DirLight.Color.x = r;
 }
 
 
@@ -266,7 +269,7 @@ void CDlgDirLight::OnEnChangeColorGEdit()
 
 	float g = (float)value / 255;
 	g = round(g * 1000.0f) / 1000.0f;
-	g_pRenderer->SetDirLightColorG(g);
+	g_pRenderer->Light.DirLight.Color.y = g;
 }
 
 
@@ -280,5 +283,5 @@ void CDlgDirLight::OnEnChangeColorBEdit()
 
 	float b = (float)value / 255;
 	b = round(b * 1000.0f) / 1000.0f;
-	g_pRenderer->SetDirLightColorB(b);
+	g_pRenderer->Light.DirLight.Color.z = b;
 }

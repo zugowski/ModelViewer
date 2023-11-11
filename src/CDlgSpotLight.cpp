@@ -80,44 +80,50 @@ BOOL CDlgSpotLight::OnInitDialog()
 	int highestPos = 50;
 	CString posValStr;
 
+	const int posX = SpotLightInitPos.x;
 	m_PosXSlider.SetRange(lowestPos, highestPos);
 	m_PosXSlider.SetTicFreq(1);
-	m_PosXSlider.SetPos(0);
-	posValStr.Format(_T("%d"), 0);
+	m_PosXSlider.SetPos(posX);
+	posValStr.Format(_T("%d"), posX);
 	m_PosXEdit.SetWindowTextW(posValStr);
 
+	const int posY = SpotLightInitPos.y;
 	m_PosYSlider.SetRange(lowestPos, highestPos);
 	m_PosYSlider.SetTicFreq(1);
-	m_PosYSlider.SetPos(20);
-	posValStr.Format(_T("%d"), 20);
+	m_PosYSlider.SetPos(posY);
+	posValStr.Format(_T("%d"), posY);
 	m_PosYEdit.SetWindowTextW(posValStr);
 
+	const int posZ = SpotLightInitPos.z;
 	m_PosZSlider.SetRange(lowestPos, highestPos);
 	m_PosZSlider.SetTicFreq(1);
-	m_PosZSlider.SetPos(-50);
-	posValStr.Format(_T("%d"), -50);
+	m_PosZSlider.SetPos(posZ);
+	posValStr.Format(_T("%d"), posZ);
 	m_PosZEdit.SetWindowTextW(posValStr);
 
 	int lowestDir = -50;
 	int highestDir = 50;
 	CString dirValStr;
 
+	const int dirX = SpotLightInitDir.x;
 	m_DirXSlider.SetRange(lowestDir, highestDir);
 	m_DirXSlider.SetTicFreq(1);
-	m_DirXSlider.SetPos(1);
-	dirValStr.Format(_T("%d"), 0);
+	m_DirXSlider.SetPos(dirX);
+	dirValStr.Format(_T("%d"), dirX);
 	m_DirXEdit.SetWindowTextW(dirValStr);
 
+	const int dirY = SpotLightInitDir.x;
 	m_DirYSlider.SetRange(lowestDir, highestDir);
 	m_DirYSlider.SetTicFreq(1);
 	m_DirYSlider.SetPos(30);
 	dirValStr.Format(_T("%d"), 30);
 	m_DirYEdit.SetWindowTextW(dirValStr);
 
+	const int dirZ = SpotLightInitDir.z;
 	m_DirZSlider.SetRange(lowestDir, highestDir);
 	m_DirZSlider.SetTicFreq(1);
-	m_DirZSlider.SetPos(-15);
-	dirValStr.Format(_T("%d"), -15);
+	m_DirZSlider.SetPos(dirZ);
+	dirValStr.Format(_T("%d"), dirZ);
 	m_DirZEdit.SetWindowTextW(dirValStr);
 
 	int lowestColor = 0;
@@ -145,22 +151,22 @@ BOOL CDlgSpotLight::OnInitDialog()
 	int highestRange = 300;
 	CString rangeValStr;
 
-	rangeValStr.Format(_T("%d"), 150);
-
+	const int range = SpotLightInitRange;
 	m_RangeSlider.SetRange(lowestRange, highestRange);
 	m_RangeSlider.SetTicFreq(1);
-	m_RangeSlider.SetPos(150);
+	m_RangeSlider.SetPos(range);
+	rangeValStr.Format(_T("%d"), range);
 	m_RangeEdit.SetWindowTextW(rangeValStr);
 
 	int lowestSpotPower  = 0;
 	int highestSpotPower = 10;
 	CString spotPowerValStr;
 
-	spotPowerValStr.Format(_T("%d"), 5);
-
+	const int spotPower = SpotLightInitSpotPower;
 	m_SpotPowerSlider.SetRange(lowestSpotPower, highestSpotPower);
 	m_SpotPowerSlider.SetTicFreq(1);
-	m_SpotPowerSlider.SetPos(5);
+	m_SpotPowerSlider.SetPos(spotPower);
+	spotPowerValStr.Format(_T("%d"), spotPower);
 	m_SpotPowerEdit.SetWindowTextW(spotPowerValStr);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -177,17 +183,17 @@ void CDlgSpotLight::OnBnClickedOnoffCheck()
 		int posR = m_ColorRSlider.GetPos();
 		float r = (float)posR / 255;
 		r = round(r * 1000.0f) / 1000.0f;
-		g_pRenderer->SetSpotLightColorR(r);
+		g_pRenderer->Light.SpotLight.Color.x = r;
 
 		int posG = m_ColorGSlider.GetPos();
 		float g = (float)posG / 255;
 		g = round(g * 1000.0f) / 1000.0f;
-		g_pRenderer->SetSpotLightColorG(g);
+		g_pRenderer->Light.SpotLight.Color.y = g;
 
 		int posB = m_ColorBSlider.GetPos();
 		float b = (float)posB / 255;
 		b = round(b * 1000.0f) / 1000.0f;
-		g_pRenderer->SetSpotLightColorB(b);
+		g_pRenderer->Light.SpotLight.Color.z = b;
 
 		m_PosXSlider.EnableWindow(TRUE);
 		m_PosYSlider.EnableWindow(TRUE);
@@ -218,9 +224,9 @@ void CDlgSpotLight::OnBnClickedOnoffCheck()
 	}
 	else
 	{
-		g_pRenderer->SetSpotLightColorR(0.0f);
-		g_pRenderer->SetSpotLightColorG(0.0f);
-		g_pRenderer->SetSpotLightColorB(0.0f);
+		g_pRenderer->Light.SpotLight.Color.x = 0.0f;
+		g_pRenderer->Light.SpotLight.Color.y = 0.0f;
+		g_pRenderer->Light.SpotLight.Color.z = 0.0f;
 
 		m_PosXSlider.EnableWindow(FALSE);
 		m_PosYSlider.EnableWindow(FALSE);
@@ -261,53 +267,53 @@ void CDlgSpotLight::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	{
 	case IDC_POS_X_SLIDER:
 		SetDlgItemInt(IDC_POS_X_EDIT, pos);
-		g_pRenderer->SetSpotLightPositionX(pos);
+		g_pRenderer->Light.SpotLight.Position.x = pos;
 		break;
 	case IDC_POS_Y_SLIDER:
 		SetDlgItemInt(IDC_POS_Y_EDIT, pos);
-		g_pRenderer->SetSpotLightPositionY(pos);
+		g_pRenderer->Light.SpotLight.Position.y = pos;
 		break;
 	case IDC_POS_Z_SLIDER:
 		SetDlgItemInt(IDC_POS_Z_EDIT, pos);
-		g_pRenderer->SetSpotLightPositionZ(pos);
+		g_pRenderer->Light.SpotLight.Position.z = pos;
 		break;
 	case IDC_DIR_X_SLIDER:
 		SetDlgItemInt(IDC_DIR_X_EDIT, pos);
-		g_pRenderer->SetSpotLightDirectionX(pos);
+		g_pRenderer->Light.SpotLight.Direction.x = pos;
 		break;
 	case IDC_DIR_Y_SLIDER:
 		SetDlgItemInt(IDC_DIR_Y_EDIT, pos);
-		g_pRenderer->SetSpotLightDirectionY(pos);
+		g_pRenderer->Light.SpotLight.Direction.y = pos;
 		break;
 	case IDC_DIR_Z_SLIDER:
 		SetDlgItemInt(IDC_DIR_Z_EDIT, pos);
-		g_pRenderer->SetSpotLightDirectionZ(pos);
+		g_pRenderer->Light.SpotLight.Direction.z = pos;
 		break;
 	case IDC_COLOR_R_SLIDER:
 		SetDlgItemInt(IDC_COLOR_R_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetSpotLightColorR(t);
+		g_pRenderer->Light.SpotLight.Color.x = t;
 		break;
 	case IDC_COLOR_G_SLIDER:
 		SetDlgItemInt(IDC_COLOR_G_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetSpotLightColorG(t);
+		g_pRenderer->Light.SpotLight.Color.y = t;
 		break;
 	case IDC_COLOR_B_SLIDER:
 		SetDlgItemInt(IDC_COLOR_B_EDIT, pos);
 		t = (float)pos / 255;
 		t = round(t * 1000.0f) / 1000.0f;
-		g_pRenderer->SetSpotLightColorB(t);
+		g_pRenderer->Light.SpotLight.Color.z = t;
 		break;
 	case IDC_RANGE_SLIDER:
 		SetDlgItemInt(IDC_RANGE_EDIT, pos);
-		g_pRenderer->SetSpotLightRange(pos);
+		g_pRenderer->Light.SpotLight.Range = pos;
 		break;
 	case IDC_SPOTPOWER_SLIDER:
 		SetDlgItemInt(IDC_SPOTPOWER_EDIT, pos);
-		g_pRenderer->SetSpotLightSpotPower(pos);
+		g_pRenderer->Light.SpotLight.SpotPower = pos;
 		break;
 	}
 
@@ -322,7 +328,7 @@ void CDlgSpotLight::OnEnChangePosXEdit()
 	int value = _ttoi(str);
 
 	m_PosXSlider.SetPos(value);
-	g_pRenderer->SetSpotLightPositionX(value);
+	g_pRenderer->Light.SpotLight.Position.x = value;
 }
 
 
@@ -333,7 +339,7 @@ void CDlgSpotLight::OnEnChangePosYEdit()
 	int value = _ttoi(str);
 
 	m_PosYSlider.SetPos(value);
-	g_pRenderer->SetSpotLightPositionY(value);
+	g_pRenderer->Light.SpotLight.Position.y = value;
 }
 
 
@@ -344,7 +350,7 @@ void CDlgSpotLight::OnEnChangePosZEdit()
 	int value = _ttoi(str);
 
 	m_PosZSlider.SetPos(value);
-	g_pRenderer->SetSpotLightPositionZ(value);
+	g_pRenderer->Light.SpotLight.Position.z = value;
 }
 
 
@@ -355,7 +361,7 @@ void CDlgSpotLight::OnEnChangeDirXEdit()
 	int value = _ttoi(str);
 
 	m_DirXSlider.SetPos(value);
-	g_pRenderer->SetSpotLightDirectionX(value);
+	g_pRenderer->Light.SpotLight.Direction.x = value;
 }
 
 
@@ -366,7 +372,7 @@ void CDlgSpotLight::OnEnChangeDirYEdit()
 	int value = _ttoi(str);
 
 	m_DirYSlider.SetPos(value);
-	g_pRenderer->SetSpotLightDirectionY(value);
+	g_pRenderer->Light.SpotLight.Direction.y = value;
 }
 
 
@@ -377,7 +383,7 @@ void CDlgSpotLight::OnEnChangeDirZEdit()
 	int value = _ttoi(str);
 
 	m_DirZSlider.SetPos(value);
-	g_pRenderer->SetSpotLightDirectionZ(value);
+	g_pRenderer->Light.SpotLight.Direction.z = value;
 }
 
 
@@ -391,7 +397,7 @@ void CDlgSpotLight::OnEnChangeColorREdit()
 
 	float r = (float)value / 255;
 	r = round(r * 1000.0f) / 1000.0f;
-	g_pRenderer->SetSpotLightColorR(r);
+	g_pRenderer->Light.SpotLight.Color.x = r;
 }
 
 
@@ -405,7 +411,7 @@ void CDlgSpotLight::OnEnChangeColorGEdit()
 
 	float g = (float)value / 255;
 	g = round(g * 1000.0f) / 1000.0f;
-	g_pRenderer->SetSpotLightColorG(g);
+	g_pRenderer->Light.SpotLight.Color.y = g;
 }
 
 
@@ -419,7 +425,7 @@ void CDlgSpotLight::OnEnChangeColorBEdit()
 
 	float b = (float)value / 255;
 	b = round(b * 1000.0f) / 1000.0f;
-	g_pRenderer->SetSpotLightColorB(b);
+	g_pRenderer->Light.SpotLight.Color.z = b;
 }
 
 
@@ -430,7 +436,7 @@ void CDlgSpotLight::OnEnChangeRangeEdit()
 	int value = _ttoi(str);
 
 	m_RangeSlider.SetPos(value);
-	g_pRenderer->SetSpotLightRange(value);
+	g_pRenderer->Light.SpotLight.Range = value;
 }
 
 
@@ -441,5 +447,5 @@ void CDlgSpotLight::OnEnChangeSpotPowerEdit()
 	int value = _ttoi(str);
 
 	m_SpotPowerSlider.SetPos(value);
-	g_pRenderer->SetSpotLightSpotPower(value);
+	g_pRenderer->Light.SpotLight.SpotPower = value;
 }
