@@ -173,6 +173,7 @@ BOOL CModelViewerApp::OnIdle(LONG lCount)
 
 	if (pFrame->GetFocus())
 	{
+		g_pRenderer->Tick();
 		g_pRenderer->Render();
 		return TRUE;
 	}
